@@ -97,6 +97,7 @@ function App() {
                       Sign out
                       Izin lagi tepar karena push tugas kak
                     </a>
+                    <a href="">izin commit cadangan ya kak, habis presentasi kkn tepar</a>
                   </MenuItem>
                 </MenuItems>
               </Menu>
