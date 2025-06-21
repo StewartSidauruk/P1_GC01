@@ -98,6 +98,7 @@ function App() {
                       Izin lagi tepar karena push tugas kak
                     </a>
                     <a href="">izin commit cadangan ya kak, habis presentasi kkn tepar</a>
+                    <a href="">izin ya kakk</a>
                   </MenuItem>
                 </MenuItems>
               </Menu>
