@@ -11,25 +11,25 @@ export default function HeroMovieContainer() {
 
     useEffect(() => {
         const fetchData = async () => {
-        try {
-            const headers = {
-            Authorization: `Bearer ${ACCESS_TOKEN}`
-            };
+            try {
+                const headers = {
+                    Authorization: `Bearer ${ACCESS_TOKEN}`
+                };
 
-            const genreRes = await axios.get("https://api.themoviedb.org/3/genre/movie/list", { headers });
-            const genreDict = {};
-            genreRes.data.genres.forEach((g) => {
-            genreDict[g.id] = g.name;
-            });
-            setGenresMap(genreDict);
+                const genreRes = await axios.get("https://api.themoviedb.org/3/genre/movie/list", { headers });
+                const genreDict = {};
+                genreRes.data.genres.forEach((g) => {
+                    genreDict[g.id] = g.name;
+                });
+                setGenresMap(genreDict);
 
-            const res = await axios.get("https://api.themoviedb.org/3/trending/movie/week", { headers });
-            const firstMovie = res.data.results[0];
-            console.log("🎬 Preview Movie from API:", firstMovie);
-            setMovie(firstMovie);
-        } catch (err) {
-            console.error("❌ Failed to fetch movie preview", err);
-        }
+                const res = await axios.get("https://api.themoviedb.org/3/trending/movie/week", { headers });
+                const firstMovie = res.data.results[0];
+                console.log("🎬 Preview Movie from API:", firstMovie);
+                setMovie(firstMovie);
+            } catch (err) {
+                console.error("❌ Failed to fetch movie preview", err);
+            }
         };
 
         fetchData();

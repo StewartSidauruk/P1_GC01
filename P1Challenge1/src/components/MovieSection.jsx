@@ -8,8 +8,7 @@ export default function MovieSection({ title, endpoint }) {
   const [movies, setMovies] = useState([]);
 
   useEffect(() => {
-    axios
-      .get(`https://api.themoviedb.org/3${endpoint}`, {
+    axios.get(`https://api.themoviedb.org/3${endpoint}`, {
         headers: {
           Authorization: `Bearer ${ACCESS_TOKEN}`,
         },
@@ -26,16 +25,10 @@ export default function MovieSection({ title, endpoint }) {
       </div>
       <div className="flex overflow-x-scroll gap-4 scrollbar-hide pb-2">
         {movies.map((movie) => (
-          <div
-            key={movie.id}
+          <div key={movie.id}
             className="min-w-[160px] sm:min-w-[180px] md:min-w-[200px] hover:scale-105 transition-transform duration-300"
           >
-            <img
-              src={
-                movie.poster_path
-                  ? `${IMAGE_BASE_URL}${movie.poster_path}`
-                  : "https://via.placeholder.com/200x300?text=No+Image"
-              }
+            <img src={ movie.poster_path ? `${IMAGE_BASE_URL}${movie.poster_path}` : "https://via.placeholder.com/200x300?text=No+Image" }
               alt={movie.title}
               className="rounded-lg w-full h-auto object-cover"
             />

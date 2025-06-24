@@ -81,7 +81,7 @@ export default function Navbar() {
                                         <span className="sr-only">Open user menu</span>
                                         <img
                                             className="h-9 w-9 rounded-full"
-                                            src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                                            src=""
                                             alt="User"
                                         />
                                         </MenuButton>
@@ -154,7 +154,7 @@ export default function Navbar() {
                             <div className="flex items-center px-3 mt-3">
                                 <img
                                     className="h-9 w-9 rounded-full mr-2"
-                                    src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                                    src=""
                                     alt="User"
                                 />
                                 <span className="text-white text-sm">Username</span>
