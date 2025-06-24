@@ -1,40 +1,44 @@
-import axios from "axios";
+import { tmdbAPI } from "../api/tmdb";
 import { useEffect, useState } from "react";
 import MoviePreview from "./MoviePreview";
+import './MovieSection.css';
 
-const ACCESS_TOKEN = "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI4M2VmYzRlN2U0NGEyNmE5OGZmYjU5OGE5MzZhM2NjNyIsIm5iZiI6MTc1MDMzNDYyMy4xNDEsInN1YiI6IjY4NTNmYzlmNGQzNzUzZGIxYzc5YjAyMSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.xWrYvNLhg8mwxgTN1rpnUYiY8wG4cZ7fIe7bLPi4VXc";
 const IMAGE_BASE_URL = "https://image.tmdb.org/t/p/original";
 
 export default function HeroMovieContainer() {
     const [movie, setMovie] = useState(null);
     const [genresMap, setGenresMap] = useState({});
+    const [isLoading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
 
     useEffect(() => {
         const fetchData = async () => {
+            setLoading(true);
+            setError(null);
             try {
-                const headers = {
-                    Authorization: `Bearer ${ACCESS_TOKEN}`
-                };
-
-                const genreRes = await axios.get("https://api.themoviedb.org/3/genre/movie/list", { headers });
+                const genreRes = await tmdbAPI.get("/genre/movie/list");
                 const genreDict = {};
                 genreRes.data.genres.forEach((g) => {
                     genreDict[g.id] = g.name;
                 });
                 setGenresMap(genreDict);
 
-                const res = await axios.get("https://api.themoviedb.org/3/trending/movie/week", { headers });
-                const firstMovie = res.data.results[0];
+                const movieRes = await tmdbAPI.get("/trending/movie/week");
+                const firstMovie = movieRes.data.results[0];
                 console.log("🎬 Preview Movie from API:", firstMovie);
                 setMovie(firstMovie);
             } catch (err) {
                 console.error("❌ Failed to fetch movie preview", err);
+                setError("Failed to load trending movie.");
+            } finally {
+                setLoading(false);
             }
         };
-
         fetchData();
-        }, []);
+    }, []);
 
+    if (isLoading) return <p className="text-white px-4">Loading...</p>;
+    if (error) return <p className="text-red-500 px-4">{error}</p>;
     if (!movie) return null;
 
     return (

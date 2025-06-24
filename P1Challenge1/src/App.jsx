@@ -18,7 +18,6 @@ function App() {
         />
       </div>
       <Footer />
-      <p>otw refactory</p>
     </>
   );
 }
