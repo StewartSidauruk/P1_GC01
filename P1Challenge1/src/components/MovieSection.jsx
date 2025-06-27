@@ -33,17 +33,21 @@ export default function MovieSection({ title, endpoint }) {
 
   useEffect(() => {
     const fetchDetails = async () => {
-      const promises = movies.map((m) =>
-        tmdbAPI
-          .get(`/movie/${m.id}?language=en-US`)
+      const promises = movies.map((m) => {
+        const mediaType = m.media_type || (endpoint.includes('/tv') ? 'tv' : 'movie');
+        return tmdbAPI
+          .get(`/${mediaType}/${m.id}?language=en-US`)
           .then((res) => [m.id, res.data])
-      );
+          .catch(() => [m.id, null]);
+      });
+
       const results = await Promise.all(promises);
       const mapped = Object.fromEntries(results);
       setMovieDetails(mapped);
     };
+
     if (movies.length) fetchDetails();
-  }, [movies]);
+  }, [movies, endpoint]);
 
   const scrollByX = (x) => {
     scrollRef.current.scrollBy({ left: x, behavior: "smooth" });
@@ -68,7 +72,10 @@ export default function MovieSection({ title, endpoint }) {
                 className="relative group min-w-[160px] sm:min-w-[180px] md:min-w-[200px] rounded-lg overflow-hidden cursor-pointer transition-transform duration-300 hover:scale-105"
                 onMouseEnter={() => setHoveredMovieId(movie.id)}
                 onMouseLeave={() => setHoveredMovieId(null)}
-                onClick={() => setSelectedMovie({ ...movie, media_type: movie.media_type || 'tv' })}
+                onClick={() => {
+                  const mediaType = movie.media_type || (endpoint.includes('/tv') ? 'tv' : 'movie');
+                  setSelectedMovie({ ...movie, media_type: mediaType });
+                }}
               >
                 <img src={ movie.poster_path ? `${IMAGE_BASE_URL}${movie.poster_path}`: "https://via.placeholder.com/200x300?text=No+Image"} alt={movie.title} className="w-full h-full object-cover"/>
 
