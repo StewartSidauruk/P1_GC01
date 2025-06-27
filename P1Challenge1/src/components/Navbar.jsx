@@ -25,7 +25,7 @@ const navigation = [
     { name: 'Home', href: '/', icon: HomeIcon },
     { name: 'TV', href: '/tv', icon: TvIcon },
     { name: 'Movies', href: '/movies', icon: FilmIcon },
-    { name: 'Originals', href: '/favorite', icon: StarIcon },
+    { name: 'Favorite', href: '/favorite', icon: StarIcon },
 ];
 
 function classNames(...classes) {
@@ -114,23 +114,19 @@ export default function Navbar() {
                         <div className="flex flex-col space-y-4">
                             {navigation.map((item) => {
                             const isActive = location.pathname === item.href;
-                            return (
-                                <Link
-                                key={item.name}
-                                to={item.href}
-                                className={classNames( isActive ? 'bg-gray-800 text-white' : 'text-gray-400 hover:text-white hover:bg-gray-700','flex items-center px-4 py-2 rounded-md text-base font-medium transition duration-150')}>
-                                <item.icon className="h-6 w-6 mr-3" aria-hidden="true" />
-                                {item.name}
-                                </Link>
-                            );
+                                return (
+                                    <Link
+                                    key={item.name}
+                                    to={item.href}
+                                    className={classNames( isActive ? 'bg-gray-800 text-white' : 'text-gray-400 hover:text-white hover:bg-gray-700','flex items-center px-4 py-2 rounded-md text-base font-medium transition duration-150')}>
+                                    <item.icon className="h-6 w-6 mr-3" aria-hidden="true" />
+                                    {item.name}
+                                    </Link>
+                                );
                             })}
 
                             <div className="flex items-center px-4 pt-4 border-t border-gray-700">
-                            <img
-                                className="h-9 w-9 rounded-full mr-3"
-                                src="https://img1.hotstarext.com/image/upload/w_200,h_200,c_fill/feature/profile/5.png"
-                                alt="User"
-                            />
+                            <img className="h-9 w-9 rounded-full mr-3" src="https://img1.hotstarext.com/image/upload/w_200,h_200,c_fill/feature/profile/5.png" alt="User"/>
                             <span className="text-white text-sm font-medium">Username</span>
                             </div>
                         </div>

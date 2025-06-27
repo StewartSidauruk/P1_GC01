@@ -10,22 +10,41 @@ export function useSearchMovies(search) {
         setLoading(true);
         setError(null);
         try {
-            const { data } = await tmdbAPI({
-                url: search ? '/search/movie' : '/trending/movie/day?language=en-US',
-                method: 'GET',
-                params: search
-                ? {
-                    query: search,
-                    include_adult: false,
-                    language: 'en-US',
-                    page: 1,
+            if (search) {
+                const [movieRes, tvRes] = await Promise.all([
+                    tmdbAPI.get('/search/movie', {
+                        params: {
+                            query: search,
+                            include_adult: false,
+                            language: 'en-US',
+                            page: 1,
+                        }
+                    }),
+                    tmdbAPI.get('/search/tv', {
+                        params: {
+                            query: search,
+                            include_adult: false,
+                            language: 'en-US',
+                            page: 1,
+                        }
+                    })
+                ]);
+
+                const combinedResults = [
+                    ...movieRes.data.results.map(item => ({ ...item, media_type: 'movie' })),
+                    ...tvRes.data.results.map(item => ({ ...item, media_type: 'tv' }))
+                ];
+
+                setMovies(combinedResults.sort((a, b) => b.popularity - a.popularity));
+            } else {
+                const { data } = await tmdbAPI.get('/trending/all/day', {
+                    params: {
+                        language: 'en-US',
+                        page: 1,
                     }
-                : {
-                    language: 'en-US',
-                    page: 1,
-                    },
-            });
-            setMovies(data.results);
+                });
+                setMovies(data.results);
+            }
         } catch (err) {
             setError('Something went wrong...');
         } finally {
@@ -35,8 +54,8 @@ export function useSearchMovies(search) {
 
     useEffect(() => {
         const handler = setTimeout(() => {
-        fetchMovies();
-    }, 500);
+            fetchMovies();
+        }, 500);
         return () => clearTimeout(handler);
     }, [search]);
 
