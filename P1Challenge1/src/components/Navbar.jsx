@@ -44,7 +44,7 @@ export default function Navbar() {
                             <img
                                 src={coldstarLogo}
                                 alt="Coldstar"
-                                className="h-13 w-auto ml-8"
+                                className="h-20 w-auto ml-8"
                             />
                         </div>
                         <div className="absolute right-8 flex items-center sm:hidden">
